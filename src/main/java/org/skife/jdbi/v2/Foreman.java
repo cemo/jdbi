@@ -89,12 +89,29 @@ class Foreman
 
         public boolean accepts(Class expectedType, Object value, StatementContext ctx)
         {
-            return b.containsKey(expectedType);
+            return b.containsKey(expectedType) || (isEnum(expectedType) != null);
         }
 
-        public Argument build(Class expectedType, Object value, StatementContext ctx)
+        private P isEnum(Class expectedType)
         {
-            return b.get(expectedType).build(value);
+           if(expectedType.isEnum()){
+               // for future references storing in map to increase fetch time
+               P p = new P(EnumArgument.class);
+               b.put(expectedType, p);
+               return p;
+           }
+           return null;
+        }
+
+       public Argument build(Class expectedType, Object value, StatementContext ctx)
+        {
+            P p = b.get(expectedType);
+            // maybe someone called without checking accepts()`
+            // for this cases it is better to check one more again
+            if(p == null){
+                p = isEnum(expectedType);
+            }
+            return p.build(value);
         }
 
         private static class P
