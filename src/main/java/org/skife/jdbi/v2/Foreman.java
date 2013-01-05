@@ -85,6 +85,7 @@ class Foreman
             b.put(Time.class, new P(TimeArgument.class));
             b.put(Timestamp.class, new P(TimestampArgument.class));
             b.put(URL.class, new P(URLArgument.class));
+            b.put(Enum.class, new P(EnumArgument.class));
         }
 
         public boolean accepts(Class expectedType, Object value, StatementContext ctx)
