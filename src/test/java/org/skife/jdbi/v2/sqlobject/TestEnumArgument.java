@@ -48,19 +48,10 @@ public class TestEnumArgument extends TestCase
     public void testEnum() throws Exception
     {
         DAO dao = dbi.open(DAO.class);
-        Object cemo = NameEnum.cemo;
-        test(cemo);
         long cemo_id = dao.insert(NameEnum.cemo.name());
 
         assertThat(dao.findNameById(cemo_id), equalTo(NameEnum.cemo.name()));
 
-    }
-
-    public void test(Object o) {
-        System.out.println("TestEnumArgument.test");
-    }
-    public void test(Enum o) {
-        System.out.println("TestEnumArgument.test");
     }
 
     public static interface DAO
